@@ -30,35 +30,36 @@ public class Weather {
         // 3.获取事件类型
         int type = parser.getEventType();
         while (type != XmlPullParser.END_DOCUMENT) {
+            String nodeName = parser.getName();
             // 4.具体判断一下解析到哪里了
             switch (type) {
                 case XmlPullParser.START_TAG:
-                    if ("weather".equals(parser.getName())) {
+                    if ("weather".equals(nodeName)) {
                         // 5.创建一个集合对象
                         weatherLists = new ArrayList<Channel>();
-                    } else if ("channel".equals(parser.getName())) {
+                    } else if ("channel".equals(nodeName)) {
                         // 6.创建Channel对象
                         channel = new Channel();
                         // 7.获取id值
                         String id = parser.getAttributeValue(null, "id"); // 0号属性
                         channel.setId(id);
-                    } else if ("city".equals(parser.getName())) {
+                    } else if ("city".equals(nodeName)) {
                         // 8.获取city的数据
                         String temp = parser.nextText();// 刚刚测试过了getText()是获得本次指向的内容
                         // 这里nextText()就是指向下一次指向的内容，即开始和结束标签之间的内容
                         channel.setTemp(temp);
-                    } else if ("wind".equals(parser.getName())) {
+                    } else if ("wind".equals(nodeName)) {
                         // 9.获取wind数据
                         String wind = parser.nextText();
                         channel.setWind(wind);
-                    } else if ("pm250".equals(parser.getName())) {
+                    } else if ("pm250".equals(nodeName)) {
                         // 9.获取wind数据
                         String pm250 = parser.nextText();
                         channel.setPm250(pm250);
                     }
                     break;
                 case XmlPullParser.END_TAG:
-                    if ("channel".equals(parser.getName())) { // 已经测试过了，结束标签不会读取前面的/
+                    if ("channel".equals(nodeName)) { // 已经测试过了，结束标签不会读取前面的/
                         // 把javabean对象存到集合中
                         weatherLists.add(channel);
                     }
